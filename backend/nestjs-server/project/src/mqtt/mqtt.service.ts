@@ -5,6 +5,7 @@ import * as mqtt from 'mqtt';
 import * as moment from 'moment';
 const MOVEMENT = 'movementDetected';
 const SOUND = 'soundLevel';
+const LIGHT = 'lightStatus';
 
 @Injectable()
 export class MqttService {
@@ -27,15 +28,20 @@ export class MqttService {
   subscribeToTopics() {
     this.client.subscribe(SOUND);
     this.client.subscribe(MOVEMENT);
+    this.client.subscribe(LIGHT);
   }
 
   private handleMessages() {
     this.client.on('message', (topic: string, message: Buffer) => {
       if (topic === SOUND) {
-        const timestamp = moment().format();
         const soundLevel = message.toString();
-        this.firestoreService.addSoundLevelMeasurement({timestamp, soundLevel});
+        this.firestoreService.addSoundLevelMeasurement({timestamp: new Date(), soundLevel});
       }
+      else if (topic === LIGHT) {
+        const callerUid = 'ARDUINO'; 
+        this.firestoreService.toggleLightStatus(callerUid);
+      }
+
     });
   }
 }
