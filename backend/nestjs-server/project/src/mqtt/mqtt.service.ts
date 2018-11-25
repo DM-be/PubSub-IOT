@@ -14,7 +14,10 @@ export class MqttService {
   /**
    * service responsible for communication with cloudmqtt
    */
-  constructor(@Inject(forwardRef(() => FirestoreService)) private readonly firestoreService: FirestoreService) {
+  constructor(
+    @Inject(forwardRef(() => FirestoreService))
+    private readonly firestoreService: FirestoreService,
+  ) {
     this.client = mqtt.connect(
       MQTTURL,
       CLOUDMQTTOPTIONS,
@@ -35,13 +38,16 @@ export class MqttService {
     this.client.on('message', (topic: string, message: Buffer) => {
       if (topic === SOUND) {
         const soundLevel = message.toString();
-        this.firestoreService.addSoundLevelMeasurement({timestamp: new Date(), soundLevel});
-      }
-      else if (topic === LIGHT) {
-        const callerUid = 'ARDUINO'; 
+        this.firestoreService.addSoundLevelMeasurement({
+          timestamp: new Date(),
+          soundLevel,
+        });
+      } else if (topic === LIGHT) {
+        const callerUid = 'ARDUINO';
         this.firestoreService.toggleLightStatus(callerUid);
+      } else if (topic === MOVEMENT) {
+        this.firestoreService.addMovementDetection({ timestamp: new Date() });
       }
-
     });
   }
 }

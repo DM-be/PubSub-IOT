@@ -4,7 +4,7 @@ export interface SoundLevelMeasurement {
   }
 
 export interface MovementDetection {
-  timestamp: string;
+  timestamp: Date;
 }
 
 export interface LightStatus {
