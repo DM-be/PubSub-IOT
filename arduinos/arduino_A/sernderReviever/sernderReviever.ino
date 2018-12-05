@@ -42,4 +42,5 @@ void sendSoundLevelMeasurement() {
   int soundLevelMeasurement = analogRead(soundLevelMeasurementPin);
   const char *msg = char(soundLevelMeasurement);
   driver.send((uint8_t *)msg, strlen(msg));
+  
   }
