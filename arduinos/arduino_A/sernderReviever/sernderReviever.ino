@@ -12,14 +12,15 @@ int val = 0;
 int pirState = LOW;
 
 int soundLevelMeasurementPin = A0;
-
+Timer t;
+ 
 void setup()
 {
   pinMode(movementDetectionPin, INPUT);
   pinMode(soundLevelMeasurementPin, INPUT);
   
   attachInterrupt(digitalPinToInterrupt(movementDetectionPin), sendMovementDetection, RISING);
-  t.every(30000,sendSoundLevelMeasurement); // send soundlevelmeasurement every 30 seconds
+  int tickEvent = t.every(30000, sendSoundLevelMeasurement, 0); // send soundlevelmeasurement every 30 seconds
     Serial.begin(9600); // Debugging only
     if (!driver.init()){
       Serial.println("init failed");
@@ -39,5 +40,6 @@ void sendMovementDetection(){
 
 void sendSoundLevelMeasurement() {
   int soundLevelMeasurement = analogRead(soundLevelMeasurementPin);
-  driver.send(soundLevelMeasurement);
+  const char *msg = char(soundLevelMeasurement);
+  driver.send((uint8_t *)msg, strlen(msg));
   }
