@@ -1,9 +1,15 @@
+#include <SoftwareSerial.h>
+SoftwareSerial s(D6, D5);
+#include <ArduinoJson.h>
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>   // Read the rest of the article
 #include <stdlib.h>
 
 
-/* --- TOPICS ----
+/*
+ * from https://mybtechprojects.tech/serial-communication-between-nodemcu-and-arduino/
+ */
+ /* --- TOPICS ----
  *  soundLevel
  *      soundLevel: string  ---> any message, just a plain message in string format (no JSON) (todo: determine what is low, medium, high sound)
  *  movementDetected
@@ -15,21 +21,26 @@
  *      --> when any message is recieved --> toggle the light
  *      
  */
+
+
 const char* ssid = "Oneplus2";
 const char* password =  "ikbeneenhotspot";
 const char* mqttServer = "m20.cloudmqtt.com";
 const int mqttPort = 12295;
 const char* mqttUser = "vqdhgxdd";
 const char* mqttPassword = "0zyRZ9ySe5Cn";
- 
+
 WiFiClient espClient;
 PubSubClient client(espClient);
+
  
 void setup() {
- 
+  // Initialize Serial port
   Serial.begin(9600);
- 
-  WiFi.begin(ssid, password);
+  s.begin(9600);
+  while (!Serial) continue;
+  
+WiFi.begin(ssid, password);
  
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
@@ -58,9 +69,9 @@ void setup() {
  
   client.publish("test", "Hello from ESP8266");
   client.subscribe("test");
- 
+
 }
- 
+
 void callback(char* topic, byte* payload, unsigned int length) {
  
   Serial.print("Message arrived in topic: ");
@@ -76,6 +87,29 @@ void callback(char* topic, byte* payload, unsigned int length) {
  
 }
  
+
+
 void loop() {
+  StaticJsonBuffer<1000> jsonBuffer;
+  JsonObject& root = jsonBuffer.parseObject(s);
+  if (root == JsonObject::invalid())
+    return;
+
+  Serial.println("JSON received and parsed");
+  root.prettyPrintTo(Serial);
+  Serial.print("Data 1 ");
+  Serial.println("");
+  String data1 = root["soundLevel"];
+  Serial.print(data1);
+  Serial.print("   Data 2 ");
+  String data2 = root["movement"];
+  Serial.print(data2);
+  Serial.println("");
+  Serial.println("---------------------xxxxx--------------------");
+
+  client.publish("soundLevel", data1.c_str());
+  client.subscribe("test");
   client.loop();
+  delay(3500);
+
 }
