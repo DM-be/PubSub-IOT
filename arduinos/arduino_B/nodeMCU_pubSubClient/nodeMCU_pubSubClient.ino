@@ -1,7 +1,20 @@
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>   // Read the rest of the article
 #include <stdlib.h>
- 
+
+
+/* --- TOPICS ----
+ *  soundLevel
+ *      soundLevel: string  ---> any message, just a plain message in string format (no JSON) (todo: determine what is low, medium, high sound)
+ *  movementDetected
+ *      any:any --> any message to this topic will trigger this in the backend for now (todo: do we need some property for this?)
+ *  lightStatus
+ *      callerId: string --> ARDUINO if arduino or the uid from the firebase user
+ *      front end: sends a post to the controller --> backend publishes with message callerid and toggles the light (subscribes to the collection to update the view)
+ *      if arduino publishes its callerId to this topic, the light gets toggled
+ *      --> when any message is recieved --> toggle the light
+ *      
+ */
 const char* ssid = "Oneplus2";
 const char* password =  "ikbeneenhotspot";
 const char* mqttServer = "m20.cloudmqtt.com";
