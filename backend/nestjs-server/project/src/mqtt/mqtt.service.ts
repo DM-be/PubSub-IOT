@@ -34,6 +34,11 @@ export class MqttService {
     this.client.subscribe(LIGHT);
   }
 
+  public publishLightToggle(callerId: string)
+  {
+    this.client.publish(LIGHT, callerId);
+  }
+
   private handleMessages() {
     this.client.on('message', (topic: string, message: Buffer) => {
       if (topic === SOUND) {
@@ -43,7 +48,7 @@ export class MqttService {
           soundLevel,
         });
       } else if (topic === LIGHT) {
-        const callerUid = 'ARDUINO';
+        const callerUid = message.toString();
         this.firestoreService.toggleLightStatus(callerUid);
       } else if (topic === MOVEMENT) {
         this.firestoreService.addMovementDetection({ timestamp: new Date() });

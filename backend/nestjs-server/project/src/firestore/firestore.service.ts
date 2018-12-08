@@ -4,7 +4,7 @@ import {
   LightStatus,
 } from './../models';
 import { SERVICEACCOUNT } from './serviceAccount';
-import { Injectable } from '@nestjs/common';
+import { Injectable, forwardRef, Inject } from '@nestjs/common';
 import * as admin from 'firebase-admin';
 import { Firestore } from '@google-cloud/firestore';
 import { MqttService } from 'src/mqtt/mqtt.service';
@@ -15,7 +15,9 @@ export class FirestoreService {
    *  Service connecting to the Firestore admin SDK
    */
   private db: Firestore;
-  constructor(private mqttService: MqttService) {
+  constructor(@Inject(forwardRef(() => MqttService))
+  private readonly mqttService: MqttService,
+) {
     admin.initializeApp({
       credential: admin.credential.cert(SERVICEACCOUNT),
       databaseURL: 'https://iot-group-12.firebaseio.com',
