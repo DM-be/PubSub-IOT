@@ -1,5 +1,7 @@
 {
   "name": "IoT-group-12-app",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }
