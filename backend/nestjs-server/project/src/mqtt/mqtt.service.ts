@@ -2,8 +2,6 @@ import { FirestoreService } from './../firestore/firestore.service';
 import { CLOUDMQTTOPTIONS, MQTTURL } from './mqttSettings';
 import { Injectable, Inject, forwardRef } from '@nestjs/common';
 import * as mqtt from 'mqtt';
-import * as moment from 'moment';
-import {OneSignal_PushNotification} from "../../../../cloud/functions/src/index";
 const MOVEMENT = 'movementDetected';
 const SOUND = 'soundLevel';
 const LIGHT = 'lightStatus';
@@ -11,7 +9,6 @@ const LIGHT = 'lightStatus';
 @Injectable()
 export class MqttService {
   public client;
-  public onesignal_notification = new OneSignal_PushNotification();
   /**
    * service responsible for communication with cloudmqtt
    */
@@ -43,8 +40,6 @@ export class MqttService {
   private handleMessages() {
     this.client.on('message', (topic: string, message: Buffer) => {
       if (topic === SOUND) {
-
-        if(message.toString() = "LOUD"){onesignal_notification.sendNotification();}
         const soundLevel = message.toString();
         this.firestoreService.addSoundLevelMeasurement({
           timestamp: new Date(),
