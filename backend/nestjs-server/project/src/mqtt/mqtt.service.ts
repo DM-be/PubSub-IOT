@@ -63,6 +63,7 @@ export class MqttService {
       } else if (topic === MOVEMENT) {
         this.firestoreService.addMovementDetection({ timestamp: new Date() });
       }
+
     });
   }
 }
