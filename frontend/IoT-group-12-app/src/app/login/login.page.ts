@@ -1,26 +1,27 @@
-import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../services/auth.service';
-import { NavController } from '@ionic/angular';
-import { Router } from '@angular/router';
+import { Component, OnInit } from "@angular/core";
+import { AuthService } from "../services/auth.service";
+import { NavController } from "@ionic/angular";
+import { Router } from "@angular/router";
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.page.html',
-  styleUrls: ['./login.page.scss'],
+  selector: "app-login",
+  templateUrl: "./login.page.html",
+  styleUrls: ["./login.page.scss"]
 })
 export class LoginPage implements OnInit {
   public email: string;
   public password: string;
 
-  constructor(private router: Router, private authService: AuthService) { }
+  constructor(private router: Router, private authService: AuthService) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   async login() {
-    //login here
-    
-    this.router.navigateByUrl('/app/tabs/(home:home)');
-  }
+    try {
+      await this.authService.signInWithEmail(this.email, this.password);
+      this.router.navigateByUrl("/app/tabs/(home:home)");
+    } catch (err) {}
 
+   
+  }
 }

@@ -1,14 +1,33 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
+  private firebaseAuthState$: Observable<firebase.User> = null;
+  private firebaseUser: firebase.User;
+
   constructor(private _fireAuth: AngularFireAuth, private _fireStore: AngularFirestore) {
+    this.firebaseAuthState$ = _fireAuth.authState;
+    this.subscribeToAuthState();
    }
+
+
+   public getUserUid(): string {
+     return this.firebaseUser.uid;
+   }
+
+   private subscribeToAuthState(): void {
+    this.firebaseAuthState$.subscribe(async (firebaseUser: firebase.User) => {
+      if (firebaseUser) {
+        this.firebaseUser = firebaseUser;
+      }
+    });
+  }
 
   public async signInWithEmail(
     email: string,
@@ -27,8 +46,7 @@ export class AuthService {
   public async registerWithEmail(
     email: string,
     password: string,
-    fullName: string,
-    companyName: string,
+    name: string,
   ): Promise<void> {
     try {
       const newUserCredential = await this._fireAuth.auth.createUserWithEmailAndPassword(
@@ -36,7 +54,7 @@ export class AuthService {
         password,
       );
       await newUserCredential.user.updateProfile({
-        displayName: fullName,
+        displayName: name,
         photoURL: null,
       });
     } catch (error) {
