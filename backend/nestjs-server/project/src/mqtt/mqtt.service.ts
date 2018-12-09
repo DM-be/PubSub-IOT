@@ -11,7 +11,7 @@ const LIGHT = 'lightStatus';
 @Injectable()
 export class MqttService {
   public client;
-  public onesignal_notification = new OneSignal_PushNotification();
+  public onesignal = new OneSignal_PushNotification();
   /**
    * service responsible for communication with cloudmqtt
    */
@@ -44,8 +44,15 @@ export class MqttService {
     this.client.on('message', (topic: string, message: Buffer) => {
       if (topic === SOUND) {
 
-        if(message.toString() = "LOUD"){onesignal_notification.sendNotification();}
         const soundLevel = message.toString();
+
+        /***** if soundlevel is bigger then 60, send notificication. 60 can be whatever value.  *****/
+
+        if( parseInt(soundLevel,10) > 60 )
+        {this.onesignal.sendNotification();}
+
+        /*********************************************************************************************/
+
         this.firestoreService.addSoundLevelMeasurement({
           timestamp: new Date(),
           soundLevel,
