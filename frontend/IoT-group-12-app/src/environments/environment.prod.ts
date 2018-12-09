@@ -1,11 +1,11 @@
 export const environment = {
   production: true,
   firebase: {
-    apiKey: "AIzaSyCsaCCTloyNQYO3C14qiEBkHVoWMAHck5A",
-    authDomain: "hackthefuture-9dc26.firebaseapp.com",
-    databaseURL: "https://hackthefuture-9dc26.firebaseio.com",
-    projectId: "hackthefuture-9dc26",
-    storageBucket: "hackthefuture-9dc26.appspot.com",
-    messagingSenderId: "508170829181"
+    apiKey: "AIzaSyCoChxdbeRAzmldcjU7crFSG62IMyvdfyw",
+    authDomain: "iot-group-12.firebaseapp.com",
+    databaseURL: "https://iot-group-12.firebaseio.com",
+    projectId: "iot-group-12",
+    storageBucket: "iot-group-12.appspot.com",
+    messagingSenderId: "861076594546"
   }
 };
