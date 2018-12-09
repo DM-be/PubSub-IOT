@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "861076594546",
+    "firebase_url": "https://iot-group-12.firebaseio.com",
+    "project_id": "iot-group-12",
+    "storage_bucket": "iot-group-12.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:861076594546:android:16c7ccae63ce1ae4",
+        "android_client_info": {
+          "package_name": "io.ionic.starter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "861076594546-vkts7a91qhsdugafesn1bqpp1s6e6980.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvxRNCkmif7jdZD3WPYbrvLErC-VevBzo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
