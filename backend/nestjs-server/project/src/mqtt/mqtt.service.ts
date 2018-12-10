@@ -40,7 +40,7 @@ export class MqttService {
   private handleMessages() {
     this.client.on('message', (topic: string, message: Buffer) => {
       if (topic === SOUND) {
-        const soundLevel = message.toString();
+        const soundLevel = parseInt(message.toString(), 10);
         this.firestoreService.addSoundLevelMeasurement({
           timestamp: new Date(),
           soundLevel,

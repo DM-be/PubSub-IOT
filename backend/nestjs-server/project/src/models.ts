@@ -1,6 +1,6 @@
 export interface SoundLevelMeasurement {
     timestamp: Date;
-    soundLevel: string;
+    soundLevel: number;
   }
 
 export interface MovementDetection {
