@@ -11,20 +11,11 @@ import { tap } from 'rxjs/operators';
 })
 export class HomePage implements OnInit{
 
-  constructor(public fcmService: FcmService, public toastCtrl: ToastController) {
+  constructor() {
   }
   
   ngOnInit() {
-    this.fcmService.getToken();
-    this.fcmService.listenToNotifications().pipe(
-      tap(async msg => {
-        const toast = await this.toastCtrl.create({
-          message: msg.body,
-          duration: 3000
-        });
-        await toast.present();
-      })
-    ).subscribe();
+
   }
 
 

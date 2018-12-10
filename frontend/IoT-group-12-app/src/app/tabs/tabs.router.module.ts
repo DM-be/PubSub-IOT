@@ -5,6 +5,7 @@ import { TabsPage } from './tabs.page';
 import { HomePage } from '../home/home.page';
 import { AboutPage } from '../about/about.page';
 import { ContactPage } from '../contact/contact.page';
+import { SoundPage } from '../sound/sound.page';
 
 const routes: Routes = [
   {
@@ -30,6 +31,11 @@ const routes: Routes = [
         path: 'contact',
         outlet: 'contact',
         component: ContactPage
+      },
+      {
+        path: 'sound',
+        outlet: 'sound',
+        component: SoundPage
       }
     ]
   },

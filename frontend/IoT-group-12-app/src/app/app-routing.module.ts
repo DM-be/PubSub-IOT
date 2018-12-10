@@ -6,7 +6,9 @@ const routes: Routes = [
   { path: 'login', loadChildren: './login/login.module#LoginPageModule' },
   { path: 'signup', loadChildren: './signup/signup.module#SignupPageModule' },
   { path: '', loadChildren: './portal/portal.module#PortalPageModule' },
-  { path: 'app', loadChildren: './tabs/tabs.module#TabsPageModule' },
+  { path: 'app', loadChildren: './tabs/tabs.module#TabsPageModule' },  { path: 'sound', loadChildren: './sound/sound.module#SoundPageModule' },
+  { path: 'movement', loadChildren: './movement/movement.module#MovementPageModule' },
+
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
