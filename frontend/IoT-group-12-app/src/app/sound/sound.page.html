@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>sound</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+<ion-grid>
+  <ion-row *ngFor="let soundLevelMeasurement of soundLevelMeasurements" >
+    <ion-col>
+      {{soundLevelMeasurement.timestamp}}
+    </ion-col>
+    <ion-col>
+        {{soundLevelMeasurement.soundLevel}}
+      </ion-col>
+  </ion-row>
+</ion-grid>
+  
+
+
+
+</ion-content>
