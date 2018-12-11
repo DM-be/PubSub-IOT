@@ -10,9 +10,9 @@ export interface MovementDetection {
 export interface LightStatus {
   timestamp: Date;
   status: boolean; // true if on, false if off
-  callerId: string;
+  callerUid: string;
 }
 
 export interface LightStatusDto {
-  callerId: string;
+  callerUid: string;
 }

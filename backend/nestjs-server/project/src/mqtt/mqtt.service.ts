@@ -6,6 +6,13 @@ const MOVEMENT = 'movementDetected';
 const SOUND = 'soundLevel';
 const LIGHT = 'lightStatus';
 
+interface Message {
+  soundLevel?: number;
+  callerUid?: string;
+  movementDetected?: boolean; // not so meaningfull since we only send true (only on movement)
+  status?: boolean;
+}
+
 @Injectable()
 export class MqttService {
   public client;
@@ -32,26 +39,42 @@ export class MqttService {
     this.client.subscribe(LIGHT);
   }
 
-  public publishLightToggle(callerId: string)
-  {
-    this.client.publish(LIGHT, callerId);
+  public publishLightToggle(callerUid: string) {
+    const jsonObj = {
+      callerUid,
+    };
+    const stringJson = JSON.stringify(jsonObj);
+    const message = new Buffer(stringJson);
+    this.client.publish(LIGHT, message);
   }
 
   private handleMessages() {
-    this.client.on('message', (topic: string, message: Buffer) => {
+    this.client.on('message', async (topic: string, message: Buffer) => {
+      const stringMessage = message.toString();
+      const messageInJson: Message = JSON.parse(stringMessage);
       if (topic === SOUND) {
-        const soundLevel = parseInt(message.toString(), 10);
-        this.firestoreService.addSoundLevelMeasurement({
+        const soundLevel = messageInJson.soundLevel;
+        await this.firestoreService.addSoundLevelMeasurement({
           timestamp: new Date(),
           soundLevel,
         });
       } else if (topic === LIGHT) {
-        const callerUid = message.toString();
-        this.firestoreService.toggleLightStatus(callerUid);
+        const callerUid = messageInJson.callerUid;
+        if (messageInJson.status) {
+          await this.firestoreService.setLightStatus(
+            callerUid,
+            messageInJson.status,
+          );
+          // arduino needs to publish true or false depending on the status of the light
+        } else {
+          // use the toggle feature, because this would have been called using the post in the controller
+          await this.firestoreService.toggleLightStatus(callerUid);
+        }
       } else if (topic === MOVEMENT) {
-        this.firestoreService.addMovementDetection({ timestamp: new Date() });
+        await this.firestoreService.addMovementDetection({
+          timestamp: new Date(),
+        });
       }
-
     });
   }
 }
