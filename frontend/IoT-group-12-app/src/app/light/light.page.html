@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>lights</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+<ion-grid>
+
+  <ion-row><ion-button (click)="toggleLight()">Toggle</ion-button></ion-row>
+
+  <ion-row *ngFor="let lightStatus of lightStatusUpdates" >
+    <ion-col>
+      {{lightStatus.timestamp}}
+    </ion-col>
+    <ion-col>
+      {{lightStatus.status}}
+    </ion-col>
+    <ion-col>
+      {{lightStatus.callerUid}}
+    </ion-col>
+  </ion-row>
+
+
+</ion-grid>
+  
+
+
+
+</ion-content>

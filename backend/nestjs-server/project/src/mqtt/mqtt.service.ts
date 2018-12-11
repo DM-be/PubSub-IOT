@@ -71,8 +71,11 @@ export class MqttService {
           await this.firestoreService.toggleLightStatus(callerUid);
         }
       } else if (topic === MOVEMENT) {
+        console.log('move')
+        const movementDetected = messageInJson.movementDetected;
         await this.firestoreService.addMovementDetection({
           timestamp: new Date(),
+          movementDetected
         });
       }
     });

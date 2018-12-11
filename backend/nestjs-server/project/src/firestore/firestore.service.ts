@@ -44,7 +44,7 @@ export class FirestoreService {
     await this.db
       .collection('statistics')
       .doc(collectionId)
-      .collection('soundMeasurements')
+      .collection('movementDetections')
       .add(movementDetection);
   }
 
@@ -62,10 +62,10 @@ export class FirestoreService {
       callerUid,
     };
     await this.db
-    .collection('statistics')
-    .doc('lightStatus')
-    .collection('lightStatusUpdates')
-    .add(newLightStatus);
+      .collection('statistics')
+      .doc('lightStatus')
+      .collection('lightStatusUpdates')
+      .add(newLightStatus);
   }
 
   async setLightStatus(callerUid: string, status: boolean) {
@@ -85,7 +85,6 @@ export class FirestoreService {
     data: SoundLevelMeasurement | MovementDetection,
   ): string {
     const date = data.timestamp;
-    const momentObj = moment(date);
     const hourFormat = 'hh:mm:ss';
     const dayMonthYearFormat = 'MMM DD, YYYY';
     const currentDay = moment(date).format(dayMonthYearFormat);

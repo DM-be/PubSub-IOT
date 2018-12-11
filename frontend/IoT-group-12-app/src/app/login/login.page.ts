@@ -19,7 +19,7 @@ export class LoginPage implements OnInit {
   async login() {
     try {
       await this.authService.signInWithEmail(this.email, this.password);
-      this.router.navigateByUrl("/app/tabs/(home:home)");
+      this.router.navigateByUrl("/app/tabs/(sound:sound)");
     } catch (err) {}
 
    

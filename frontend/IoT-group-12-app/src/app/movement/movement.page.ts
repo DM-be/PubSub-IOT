@@ -6,6 +6,7 @@ import * as moment from 'moment';
 
 interface MovementDetection {
   timestamp: string | firebase.firestore.Timestamp;
+  movementDetected: boolean;
 }
 
 @Component({
@@ -37,6 +38,7 @@ export class MovementPage implements OnInit {
             const date = new Date(ms);
             return {
               timestamp: moment(date).fromNow(),
+              movementDetected: md.movementDetected
             } as MovementDetection;
           });
         }
