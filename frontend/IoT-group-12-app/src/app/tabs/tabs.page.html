@@ -1,13 +1,10 @@
 <ion-tabs>
+  <ion-tab tab="light">
+    <ion-router-outlet name="light"></ion-router-outlet>
+  </ion-tab>
 
-  <ion-tab tab="home">
-    <ion-router-outlet name="home"></ion-router-outlet>
-  </ion-tab>
-  <ion-tab tab="about">
-    <ion-router-outlet name="about"></ion-router-outlet>
-  </ion-tab>
-  <ion-tab tab="contact">
-    <ion-router-outlet name="contact"></ion-router-outlet>
+  <ion-tab tab="movement">
+    <ion-router-outlet name="movement"></ion-router-outlet>
   </ion-tab>
   <ion-tab tab="sound">
     <ion-router-outlet name="sound"></ion-router-outlet>
@@ -15,23 +12,18 @@
 
   <ion-tab-bar slot="bottom">
 
-    <ion-tab-button tab="home" href="app/tabs/(home:home)">
-      <ion-icon name="home"></ion-icon>
-      <ion-label>Home</ion-label>
+    <ion-tab-button tab="light" href="app/tabs/(light:light)">
+      <ion-icon name="bulb"></ion-icon>
+      <ion-label>Light</ion-label>
     </ion-tab-button>
 
-    <ion-tab-button tab="about" href="app/tabs/(about:about)">
-      <ion-icon name="information-circle"></ion-icon>
-      <ion-label>About</ion-label>
-    </ion-tab-button>
-
-    <ion-tab-button tab="contact" href="app/tabs/(contact:contact)">
-      <ion-icon name="contacts"></ion-icon>
-      <ion-label>Contact</ion-label>
+    <ion-tab-button tab="movement" href="app/tabs/(movement:movement)">
+      <ion-icon name="walk"></ion-icon>
+      <ion-label>Movement</ion-label>
     </ion-tab-button>
     <ion-tab-button tab="sound" href="app/tabs/(sound:sound)">
-      <ion-icon name="contacts"></ion-icon>
-      <ion-label>sounds</ion-label>
+      <ion-icon name="microphone"></ion-icon>
+      <ion-label>Sounds</ion-label>
     </ion-tab-button>
 
   </ion-tab-bar>
