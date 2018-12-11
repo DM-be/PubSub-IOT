@@ -23,8 +23,8 @@ SoftwareSerial s(D6, D5);
  */
 
 
-const char* ssid = "IetsNietOpSchool";
-const char* password =  "------------";
+const char* ssid = "WiFi-2.4-10E9";
+const char* password =  "mamieEnPapieIkHouVanJullie";
 const char* mqttServer = "m20.cloudmqtt.com";
 const int mqttPort = 12295;
 const char* mqttUser = "vqdhgxdd";
@@ -69,7 +69,7 @@ WiFi.begin(ssid, password);
   client.publish("test", "Hello from ESP8266");
   // TODO: client id hier?
   String lightmsg = String("ARDUINO: " + LOW);
-  client.publish("lightStatus", lightmsg.c_str());
+  //client.publish("lightStatus", lightmsg.c_str());
   client.subscribe("test");
 
 }
@@ -120,10 +120,10 @@ void loop() {
     String data = String(s.read());
     String msg;
     if(data == "1"){
-      msg = String("{movementDetected: " + data + "}");
+      msg = String("{\"movementDetected\":" + data + "}");
       client.publish("movementDetected", data.c_str());
     } else {
-      msg = String("{soundLevel: " + data + "}");
+      msg = String("{\"soundLevel\": " + data + "}");
       client.publish("soundLevel", msg.c_str());
       
     }
