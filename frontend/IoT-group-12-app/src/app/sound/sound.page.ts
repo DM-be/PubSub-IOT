@@ -1,3 +1,4 @@
+import { MomentService } from './../services/moment/moment.service';
 
 import { Component, OnInit } from "@angular/core";
 import { AngularFirestore } from "@angular/fire/firestore";
@@ -21,14 +22,17 @@ interface SoundLevelMeasurement {
 export class SoundPage implements OnInit {
   public soundLevelMeasurements: SoundLevelMeasurement[];
 
-  constructor(private _firestore: AngularFirestore) {}
+  constructor(private _firestore: AngularFirestore, private readonly momentService: MomentService) {}
 
   ngOnInit() {
     this.subscribeToSoundMeasurements();
   }
 
   private subscribeToSoundMeasurements() {
+    const collectionId = this.momentService.getCollectionId();
     this._firestore
+      .collection('statistics')
+      .doc(collectionId)
       .collection("soundMeasurements", ref => ref.orderBy("timestamp", "desc"))
       .valueChanges()
       .subscribe((soundLevelMeasurements: SoundLevelMeasurement[]) => {

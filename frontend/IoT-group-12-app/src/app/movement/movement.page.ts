@@ -1,7 +1,12 @@
+import { MomentService } from './../services/moment/moment.service';
+import { AngularFirestore } from '@angular/fire/firestore';
 import { Component, OnInit } from '@angular/core';
+import * as moment from 'moment';
 
 
-
+interface MovementDetection {
+  timestamp: string | firebase.firestore.Timestamp;
+}
 
 @Component({
   selector: 'app-movement',
@@ -9,31 +14,34 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./movement.page.scss'],
 })
 export class MovementPage implements OnInit {
+  public movementDetections: MovementDetection[];
 
-  public movementDetections: SoundLevelMeasurement[];
-
-  constructor(private _firestore: AngularFirestore) {}
+  constructor(private _firestore: AngularFirestore, private readonly momentService: MomentService) {}
 
   ngOnInit() {
-    this.subscribeToSoundMeasurements();
+    this.subscribeToMovementDetections();
   }
 
-  private subscribeToSoundMeasurements() {
+  private subscribeToMovementDetections() {
+    const collectionId = this.momentService.getCollectionId();
     this._firestore
-      .collection("soundMeasurements", ref => ref.orderBy("timestamp", "desc"))
+      .collection('statistics')
+      .doc(collectionId)
+      .collection("movementDetections", ref => ref.orderBy("timestamp", "desc"))
       .valueChanges()
-      .subscribe((soundLevelMeasurements: SoundLevelMeasurement[]) => {
-        if (soundLevelMeasurements) {
-          this.soundLevelMeasurements = soundLevelMeasurements.map(slm => {
-            const timestamp = slm.timestamp as firebase.firestore.Timestamp;
+      .subscribe((movementDetections: MovementDetection[]) => {
+        if (movementDetections) {
+          this.movementDetections = movementDetections.map(md => {
+            const timestamp = md.timestamp as firebase.firestore.Timestamp;
             const ms = timestamp.seconds * 1000;
             const date = new Date(ms);
             return {
               timestamp: moment(date).fromNow(),
-              soundLevel: slm.soundLevel
-            } as SoundLevelMeasurement;
+            } as MovementDetection;
           });
         }
       });
   }
+
+ 
 }
