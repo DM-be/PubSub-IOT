@@ -34,7 +34,7 @@ void loop()
 
 void sendMovementDetection(){
   Serial.println("HIGH");
-  const char *msg = "High World!";
+  const char *msg = "1";
   driver.send((uint8_t *)msg, strlen(msg));
 }
 

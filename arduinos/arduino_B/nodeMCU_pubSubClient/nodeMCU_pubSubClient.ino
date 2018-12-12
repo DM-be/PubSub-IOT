@@ -23,8 +23,8 @@ SoftwareSerial s(D6, D5);
  */
 
 
-const char* ssid = "Oneplus2";
-const char* password =  "ikbeneenhotspot";
+const char* ssid = "WiFi-2.4-10E9";
+const char* password =  "mamieEnPapieIkHouVanJullie";
 const char* mqttServer = "m20.cloudmqtt.com";
 const int mqttPort = 12295;
 const char* mqttUser = "vqdhgxdd";
@@ -33,7 +33,6 @@ const char* mqttPassword = "0zyRZ9ySe5Cn";
 WiFiClient espClient;
 PubSubClient client(espClient);
 
- 
 void setup() {
   // Initialize Serial port
   Serial.begin(9600);
@@ -68,6 +67,9 @@ WiFi.begin(ssid, password);
   }
  
   client.publish("test", "Hello from ESP8266");
+  // TODO: client id hier?
+  String lightmsg = String("ARDUINO: " + LOW);
+  //client.publish("lightStatus", lightmsg.c_str());
   client.subscribe("test");
 
 }
@@ -86,10 +88,8 @@ void callback(char* topic, byte* payload, unsigned int length) {
   Serial.println("-----------------------");
  
 }
- 
 
-
-void loop() {
+void json(){
   StaticJsonBuffer<1000> jsonBuffer;
   JsonObject& root = jsonBuffer.parseObject(s);
   if (root == JsonObject::invalid())
@@ -109,6 +109,33 @@ void loop() {
 
   client.publish("soundLevel", data1.c_str());
   client.subscribe("test");
+}
+ 
+
+
+void loop() {
+  s.write("s");
+  if(s.available()>0){
+    
+    String data = String(s.read());
+    String msg;
+    if(data == "1"){
+      msg = String("{\"movementDetected\":" + data + "}");
+      client.publish("movementDetected", data.c_str());
+    } else {
+      msg = String("{\"soundLevel\": " + data + "}");
+      client.publish("soundLevel", msg.c_str());
+      
+    }
+    /*
+    String detection = data.substring(0,data.indexOf(" "));
+    String value = data.substring(data.indexOf(" "));
+    Serial.println(detection);
+    Serial.println(value);
+    */
+    client.publish("test", data.c_str());
+    
+  }
   client.loop();
   delay(3500);
 
