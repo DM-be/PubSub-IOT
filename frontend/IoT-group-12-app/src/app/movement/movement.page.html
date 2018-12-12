@@ -5,17 +5,17 @@
 </ion-header>
 
 <ion-content padding>
-<ion-grid>
-  <ion-row *ngFor="let movementDetection of movementDetections" >
-    <ion-col>
-      {{movementDetection.timestamp}}
-    </ion-col>
-    <ion-col>
-        {{movementDetection.movementDetected}}
-      </ion-col>
-  </ion-row>
-</ion-grid>
-  
+
+  <ion-list>
+    <ion-item *ngFor="let movementDetection of movementDetections">
+      <ion-label>
+        {{movementDetection.timestamp}}
+      </ion-label>
+      <ion-badge slot="end" color="primary">{{movementDetection.movementDetected}}</ion-badge>
+    </ion-item>
+  </ion-list>
+
+
 
 
 

@@ -5,17 +5,15 @@
 </ion-header>
 
 <ion-content padding>
-<ion-grid>
-  <ion-row *ngFor="let soundLevelMeasurement of soundLevelMeasurements" >
-    <ion-col>
-      {{soundLevelMeasurement.timestamp}}
-    </ion-col>
-    <ion-col>
-        {{soundLevelMeasurement.soundLevel}}
-      </ion-col>
-  </ion-row>
-</ion-grid>
   
+<ion-list>
+    <ion-item  *ngFor="let soundLevelMeasurement of soundLevelMeasurements">
+      <ion-label>
+          {{soundLevelMeasurement.timestamp}}
+        </ion-label>
+        <ion-badge slot="end" color="primary">{{soundLevelMeasurement.soundLevel}}</ion-badge>
+    </ion-item>
+  </ion-list>
 
 
 

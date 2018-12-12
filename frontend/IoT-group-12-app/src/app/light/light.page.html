@@ -9,21 +9,18 @@
 
   <ion-row><ion-button (click)="toggleLight()">Toggle</ion-button></ion-row>
 
-  <ion-row *ngFor="let lightStatus of lightStatusUpdates" >
-    <ion-col>
-      {{lightStatus.timestamp}}
-    </ion-col>
-    <ion-col>
-      {{lightStatus.status}}
-    </ion-col>
-    <ion-col>
-      {{lightStatus.callerUid}}
-    </ion-col>
-  </ion-row>
 
 
 </ion-grid>
   
+<ion-list>
+    <ion-item *ngFor="let lightStatus of lightStatusUpdates">
+      <ion-label>
+        {{lightStatus.timestamp}}
+      </ion-label>
+      <ion-badge slot="end" color="primary">{{lightStatus.status}}</ion-badge>
+    </ion-item>
+  </ion-list>
 
 
 
